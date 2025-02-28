@@ -25,9 +25,9 @@ def generate_cinematic_prompts(image_analysis):
     camera = image_analysis["camera"]
     
     prompts = [
-        f"A {scene}, illuminated by {lighting}. {characters} moves through the frame. The shot is a {camera}, capturing intensity and atmosphere.",
-        f"In a futuristic {scene}, under {lighting}, {characters} takes center stage. The camera glides between dynamic angles for cinematic depth.",
-        f"Drenched in {lighting}, the {scene} unfolds as {characters} moves in slow-motion. The shot transitions from close-ups to a sweeping drone perspective."
+        f"1. A {scene}, illuminated by {lighting}. {characters} moves through the frame. The shot is a {camera}, capturing intensity and atmosphere.",
+        f"2. In a futuristic {scene}, under {lighting}, {characters} takes center stage. The camera glides between dynamic angles for cinematic depth.",
+        f"3. Drenched in {lighting}, the {scene} unfolds as {characters} moves in slow-motion. The shot transitions from close-ups to a sweeping drone perspective."
     ]
     return prompts
 
@@ -37,7 +37,10 @@ async def generate_prompt(file: UploadFile = File(...)):
     image_bytes = await file.read()
     image_analysis = analyze_image(image_bytes)
     prompts = generate_cinematic_prompts(image_analysis)
-    return {"prompts": prompts}
+    return {
+        "image_analysis": image_analysis,
+        "cinematic_prompts": prompts
+    }
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
