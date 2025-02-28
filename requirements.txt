@@ -3,3 +3,4 @@ uvicorn
 pillow
 openai
 python-multipart
+requests
