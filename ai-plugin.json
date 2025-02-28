@@ -9,8 +9,5 @@
     "type": "openapi",
     "url": "https://veo2-plugin.onrender.com/openapi.json"
   },
-  "logo_url": "https://veo2-plugin.onrender.com/logo.png",
-  "contact_email": "soporte@veo2-plugin.com",
-  "legal_info_url": "https://veo2-plugin.com/legal",
   "capabilities": ["vision"]
 }
