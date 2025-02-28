@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException
 from PIL import Image
 import io
 import openai
@@ -20,6 +20,9 @@ app = FastAPI(
 
 def analyze_image(image_bytes):
     """Convierte la imagen a base64 y la envía correctamente a OpenAI Vision API con un prompt mejorado."""
+    if not image_bytes:
+        return "No image provided. Unable to generate analysis."
+    
     image_base64 = base64.b64encode(image_bytes).decode("utf-8")
     image_data = f"data:image/jpeg;base64,{image_base64}"
     
@@ -28,7 +31,7 @@ def analyze_image(image_bytes):
         messages=[
             {"role": "system", "content": "You are an AI specializing in cinematic analysis. Describe the composition, lighting, atmosphere, and visual storytelling of this image in a detailed and artistic way. Do not identify people, but focus on the scene's aesthetics, color grading, and mood."},
             {"role": "user", "content": [
-                {"type": "text", "text": "Analyze this image as if it were a film scene. Describe its setting, lighting, color palette, framing, and the overall cinematic feeling. Provide a visually immersive description suitable for a movie prompt."},
+                {"type": "text", "text": "Analyze this image as if it were a film scene. Describe its setting, lighting, color palette, framing, and the overall cinematic feeling. Provide a visually immersive description suitable for a movie prompt for AI video models like Sora, Google Veo 2, or Runway."},
                 {"type": "image_url", "image_url": image_data}
             ]}
         ],
@@ -37,17 +40,23 @@ def analyze_image(image_bytes):
     return response["choices"][0]["message"]["content"]
 
 def generate_cinematic_prompts(image_analysis):
-    """Genera múltiples variaciones de prompts cinematográficos basados en el análisis de la imagen."""
+    """Genera múltiples variaciones de prompts cinematográficos optimizados para Sora, Google Veo 2 y Runway."""
+    if "No image provided" in image_analysis:
+        return ["Error: No image was uploaded. Please provide an image to generate cinematic prompts."]
+    
     prompts = [
-        f"1. A cinematic scene: {image_analysis}. The shot captures intensity and atmosphere with dynamic angles.",
-        f"2. This frame evokes a {image_analysis}. The camera moves fluidly to enhance the storytelling.",
-        f"3. {image_analysis}, combined with expressive framing and lighting techniques, creating a dramatic and visually striking effect."
+        f"A cinematic scene: {image_analysis}. Designed for AI video generation, capturing intensity and atmosphere with dynamic angles.",
+        f"This frame evokes {image_analysis}, optimized for Sora, Google Veo 2, and Runway. The camera moves fluidly to enhance storytelling.",
+        f"{image_analysis}, combined with expressive framing and lighting techniques, creating a dramatic and visually striking effect suitable for high-quality AI-generated videos."
     ]
     return prompts
 
 @app.post("/generate_prompt/")
-async def generate_prompt(file: UploadFile = File(...)):
-    """Recibe una imagen, la convierte a base64, la analiza con OpenAI Vision y genera prompts cinematográficos."""
+async def generate_prompt(file: UploadFile = File(None)):
+    """Recibe una imagen, la convierte a base64, la analiza con OpenAI Vision y genera prompts cinematográficos optimizados para IA de video."""
+    if file is None:
+        raise HTTPException(status_code=400, detail="No image file uploaded. Please upload an image.")
+    
     image_bytes = await file.read()
     image_analysis = analyze_image(image_bytes)
     prompts = generate_cinematic_prompts(image_analysis)
