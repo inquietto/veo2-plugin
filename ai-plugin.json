@@ -1,0 +1,15 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Veo2 Plugin",
+  "name_for_model": "veo2_plugin",
+  "description_for_human": "Analiza imágenes y genera descripciones cinematográficas.",
+  "description_for_model": "Un plugin que analiza imágenes con un enfoque cinematográfico.",
+  "auth": { "type": "none" },
+  "api": {
+    "type": "openapi",
+    "url": "https://veo2-plugin.onrender.com/openapi.json"
+  },
+  "logo_url": "https://veo2-plugin.onrender.com/logo.png",
+  "contact_email": "soporte@veo2-plugin.com",
+  "legal_info_url": "https://veo2-plugin.com/legal"
+}
