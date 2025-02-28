@@ -31,7 +31,7 @@ def analyze_image(image_bytes):
         messages=[
             {"role": "system", "content": "You are an AI specializing in cinematic analysis. Describe the composition, lighting, atmosphere, and visual storytelling of this image in a detailed and artistic way. Do not identify people, but focus on the scene's aesthetics, color grading, and mood."},
             {"role": "user", "content": [
-                {"type": "text", "text": "Analyze this image as if it were a film scene. Describe its setting, lighting, color palette, framing, and the overall cinematic feeling. Provide a visually immersive description suitable for a movie prompt for AI video models like Sora, Google Veo 2, or Runway."},
+                {"type": "text", "text": "Analyze this image as if it were a film scene. Ignore the file name and instead describe its setting, lighting, color palette, framing, and the overall cinematic feeling. Provide a visually immersive description suitable for a movie prompt for AI video models like Sora, Google Veo 2, or Runway."},
                 {"type": "image_url", "image_url": image_data}
             ]}
         ],
