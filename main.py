@@ -8,7 +8,14 @@ import os
 
 openai.api_key = os.getenv("OPENAI_API_KEY")  # Asegúrate de definir tu clave API
 
-app = FastAPI()
+app = FastAPI(
+    title="Veo2 Plugin API",
+    description="API para analizar imágenes y generar prompts cinematográficos.",
+    version="1.0",
+    servers=[
+        {"url": "https://veo2-plugin.onrender.com", "description": "Servidor en Render"}
+    ]
+)
 
 def analyze_image(image_bytes):
     """Analiza la imagen usando OpenAI Vision API y extrae elementos clave."""
