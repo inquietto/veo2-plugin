@@ -3,6 +3,7 @@ from PIL import Image
 import io
 import openai
 import uvicorn
+import multipart
 
 app = FastAPI()
 
